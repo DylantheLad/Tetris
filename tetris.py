@@ -2,7 +2,7 @@ import random
 
 import pygame
 
-width = 800
+width = 700
 height = 900
 
 O = [['.....',
