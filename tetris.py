@@ -225,7 +225,7 @@ def draw_window(window, grid):
             pygame.draw.rect(
                 window,
                 grid[i][j],
-                (220 + j * blocksize,
+                (250 + j * blocksize,
                  100 + i * blocksize,
                  blocksize,
                  blocksize)
