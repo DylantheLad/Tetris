@@ -121,10 +121,10 @@ class piece(object):
 
 
 
-def draw_next_shape(window):
+def draw_next_shape(window,shape):
     font = pygame.font.SysFont("consolas", 30, bold=False)
     label = font.render("Next Shape", 1, (255,255,255))
-    window.blit(label, (350, 400))
+    window.blit(label, (570, 250))
 
 def draw_text_middle(window):
     font = pygame.font.SysFont("consolas", 30, bold=False)
@@ -182,9 +182,9 @@ def draw_shape(piece):
                 pygame.draw.rect(window,
                                 piece.color,
                                (530 + j* blocksize,
-                                300 + i * blocksize),
+                                300 + i * blocksize,
                                  blocksize,
-                                 blocksize),
+                                 blocksize),0)
 
                 positions.append((piece.x +j, piece.y + i))
     for i , pos in enumerate(positions):
@@ -193,20 +193,22 @@ def draw_shape(piece):
 
 def valid_space(shape,grid):
     accepted_pos = []
-    for i in range(20):
+    for j in range(10):
         subList = []
-    for j in range(20):
-        if grid[i][j] - (0,0,0):
+    for i in range(20):
+        if grid[i][j] == (0,0,0):
           subList.append((j,i))
 
     for sub in subList:
        accepted_pos.append(sub)
 
     formatted = draw_shape(shape)
-     for pos in formatted:
-            if pos not in accepted_pos:
-                if pos[1] > -1:
-                    return False
+    for pos in formatted:
+        if pos not in accepted_pos:
+            if pos[1] > -1:
+                return False
+
+    return True
 
 
 
@@ -251,6 +253,7 @@ def main(window):
 
     run = True
     while (run):
+        grid = create_grid(locked_position)
         fall_time += clock.get_rawtime()
         level_time += clock.get_rawtime()
         clock.tick()
@@ -269,16 +272,22 @@ def main(window):
             if event.type == pygame.QUIT:
                 run = False
                 pygame.display.quit()
-            if event.type == pygame.K_DOWN:
+            if event.type == pygame.KEYDOWN:
                 if event.type == pygame.K_DOWN:
                     current_shape.y += 1
+                    if not (valid_space(current_shape,grid)):
+                        current_shape.y-=1
                 if event.key == pygame.K_UP:
                     current_shape.rotation += 1
+                    if not (valid_space(current_shape,grid)):
+                        current_shape.rotation -= 1
                 if event.key == pygame.K_LEFT:
                     current_shape.x -= 1
+                    if not (valid_space(current_shape,grid)):
+                        current_shape.x += 1
                 if event.key == pygame.K_RIGHT:
                     current_shape.x += 1
-                    if not(valid_space(current_shape, grid)):
+                    if not (valid_space(current_shape,grid)):
                         current_shape.x -= 1
         current_piece_position = draw_shape(current_shape)
         for i in range(len(current_piece_position)):
