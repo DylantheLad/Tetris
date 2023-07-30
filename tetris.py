@@ -191,16 +191,16 @@ def draw_shape(piece):
         positions[i] = (pos[0] - 2, pos[1] - 4)
     return positions
 
-def valid_space(shape,grid):
+def valid_space(shape, grid):
     accepted_pos = []
     for j in range(10):
         subList = []
-    for i in range(20):
-        if grid[i][j] == (0,0,0):
-          subList.append((j,i))
+        for i in range(20):
+            if grid[i][j] == (0, 0, 0):
+                subList.append((j, i))
 
-    for sub in subList:
-       accepted_pos.append(sub)
+        for sub in subList:
+            accepted_pos.append(sub)
 
     formatted = draw_shape(shape)
     for pos in formatted:
@@ -209,6 +209,7 @@ def valid_space(shape,grid):
                 return False
 
     return True
+
 
 
 
